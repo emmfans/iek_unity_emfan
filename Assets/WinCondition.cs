@@ -1,21 +1,29 @@
 using UnityEngine;
+using TMPro;  // Import for TextMeshPro components
 
 public class TrophyCollector : MonoBehaviour
 {
-    public GameObject player; 
-    public GameObject trophy; 
-    public Canvas winCanvas; 
-    public Vector3 playerStartPosition; 
-    public Vector3 trophyStartPosition; 
-    public float resetDelay = 6f; 
-    private PlayerMovement playerMovement; 
-    private Rigidbody playerRigidbody; 
+    public GameObject player;
+    public GameObject trophy;
+    public Canvas winCanvas;
+    public TextMeshProUGUI WinText;  // Reference to the TextMeshProUGUI component inside the UI Panel
+    public Vector3 playerStartPosition;
+    public Vector3 trophyStartPosition;
+    public float resetDelay = 6f;
+    private PlayerMovement playerMovement;
+    private Rigidbody playerRigidbody;
 
     void Start()
     {
+        // Ensure the canvas and text setup is correct
         if (winCanvas != null)
         {
-            winCanvas.enabled = false;
+            winCanvas.enabled = true; // Make sure the canvas is active
+        }
+
+        if (WinText != null)
+        {
+            WinText.enabled = false; // Hide the text initially
         }
 
         if (player != null)
@@ -35,9 +43,11 @@ public class TrophyCollector : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            if (winCanvas != null)
+            // Show the WinText (TextMeshProUGUI) inside the panel
+            if (WinText != null)
             {
-                winCanvas.enabled = true;
+                WinText.enabled = true;
+                WinText.text = "You Win!"; // Set the win message
             }
 
             if (playerMovement != null)
@@ -46,20 +56,21 @@ public class TrophyCollector : MonoBehaviour
             }
             if (playerRigidbody != null)
             {
-                playerRigidbody.velocity = Vector3.zero; 
+                playerRigidbody.velocity = Vector3.zero;
             }
 
             if (trophy != null)
             {
-                trophy.SetActive(false); 
+                trophy.SetActive(false);
             }
 
-            Invoke(nameof(ResetGame), resetDelay);
+            Invoke(nameof(ResetGame), resetDelay); // Wait for reset
         }
     }
 
     private void ResetGame()
     {
+        // Reset player position and other elements
         if (player != null)
         {
             player.transform.position = playerStartPosition;
@@ -73,12 +84,12 @@ public class TrophyCollector : MonoBehaviour
         if (trophy != null)
         {
             trophy.transform.position = trophyStartPosition;
-            trophy.SetActive(true); 
+            trophy.SetActive(true);
         }
 
-        if (winCanvas != null)
+        if (WinText != null)
         {
-            winCanvas.enabled = false;
+            WinText.enabled = false; // Hide the win text after resetting
         }
     }
 }
