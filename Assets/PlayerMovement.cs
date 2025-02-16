@@ -33,4 +33,4 @@ public class PlayerMovement : MonoBehaviour
           controller.Move(moveDir.normalized * speed * Time.deltaTime);  
         }
     }
-}
+} 
