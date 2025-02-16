@@ -17,7 +17,10 @@ public class CoinPickup : MonoBehaviour
                 doubleSlider.addTime();
             }
 
-            Destroy(gameObject);
+              
+        
+            this.gameObject.SetActive(false); // Deactivate the coin when picked up
+        
         }
     }
 }
