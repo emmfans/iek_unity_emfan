@@ -631,8 +631,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 115.65}
+  m_SizeDelta: {x: 409.35, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &52542852
 MonoBehaviour:
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You Lose !
+  m_text: Press Space to Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2165,7 +2165,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240425854}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21063381, y: -3.482487e-16, z: -2.7515418e-16, w: 0.97756505}
+  m_LocalRotation: {x: 0.21063378, y: 0.000000029133712, z: -0.0000000062773764, w: 0.97756505}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2920,8 +2920,9 @@ MonoBehaviour:
   player: {fileID: 900987506}
   trophy: {fileID: 364360510}
   winCanvas: {fileID: 0}
-  WinText: {fileID: 1045720108}
-  levelText: {fileID: 52542852}
+  levelText: {fileID: 1045720108}
+  gameOverText: {fileID: 1045720108}
+  startText: {fileID: 52542852}
   playerStartPosition: {x: 0, y: 0, z: 0}
   trophyStartPosition: {x: 0, y: 0, z: 0}
   walls:
@@ -2938,7 +2939,6 @@ MonoBehaviour:
   resetDelay: 1
   doubleSlider: {fileID: 1998810698}
   trophyDelay: 1
-  gameOverText: {fileID: 1045720108}
 --- !u!136 &364360513
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4207,7 +4207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781175624161146548, guid: 5b76138354f9f9047b839642905553e0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 48
+      value: 51.3
       objectReference: {fileID: 0}
     - target: {fileID: 781175624161146548, guid: 5b76138354f9f9047b839642905553e0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7378,7 +7378,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 371, y: -258}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1045720108
 MonoBehaviour:
@@ -12647,6 +12647,9 @@ MonoBehaviour:
   cointime: 10
   timeDecrementOnEnemyTouch: 1
   gameOverText: {fileID: 1045720108}
+  startText: {fileID: 52542852}
+  trophyCollector: {fileID: 364360512}
+  player: {fileID: 900987506}
 --- !u!1001 &2010982499
 PrefabInstance:
   m_ObjectHideFlags: 0

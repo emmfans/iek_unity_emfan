@@ -8,8 +8,9 @@ public class TrophyCollector : MonoBehaviour
     public GameObject player;
     public GameObject trophy;
     public Canvas winCanvas;
-    public TextMeshProUGUI WinText;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI startText; // Added for "Press Space to Start"
     public Vector3 playerStartPosition;
     public Vector3 trophyStartPosition;
     public GameObject[] walls;
@@ -17,23 +18,25 @@ public class TrophyCollector : MonoBehaviour
     public float resetDelay = 6f;
     public DoubleSlider doubleSlider;
     public float trophyDelay = 1f;
-    public TextMeshProUGUI gameOverText;
+    
     private PlayerMovement playerMovement;
     private Rigidbody playerRigidbody;
     private int currentLevel = 1;
+    private bool gameStarted = false; // Track if the game has started
 
     void Start()
     {
-        if (winCanvas != null)
+        // Pause game at start
+        if (startText != null)
         {
-            winCanvas.enabled = false;
+            startText.enabled = true;
+            startText.text = "Press Space to Start";
         }
 
-        if (levelText != null)
-        {
-            levelText.enabled = false;
-        }
-
+        if (winCanvas != null) winCanvas.enabled = false;
+        if (levelText != null) levelText.enabled = false;
+        if (gameOverText != null) gameOverText.enabled = false;
+        
         if (player != null)
         {
             playerMovement = player.GetComponent<PlayerMovement>();
@@ -41,26 +44,49 @@ public class TrophyCollector : MonoBehaviour
             playerStartPosition = player.transform.position;
         }
 
-        if (trophy != null)
-        {
-            trophyStartPosition = trophy.transform.position;
-        }
+        if (trophy != null) trophyStartPosition = trophy.transform.position;
 
-        if (walls != null && walls.Length > 0)
+        if (walls != null)
         {
-            foreach (GameObject wall in walls)
+            foreach (var wall in walls)
             {
-                wall.SetActive(false);
+                if (wall != null) wall.SetActive(false);
             }
         }
 
-        if (coins != null && coins.Length > 0)
+        if (coins != null)
         {
-            foreach (GameObject coin in coins)
+            foreach (var coin in coins)
             {
-                coin.SetActive(false);
+                if (coin != null) coin.SetActive(false);
             }
         }
+    }
+
+    void Update()
+    {
+        if (!gameStarted && Input.GetKeyDown(KeyCode.Space))
+        {   
+           
+            StartGame();
+        }
+    }
+    public void resetGame(){
+        currentLevel=0;
+        Time.timeScale = 1f;
+        gameStarted = true;
+        LoadNextLevel();
+    }
+    private void StartGame()
+    {
+        gameStarted = true;
+        player.transform.position = playerStartPosition;
+        if (startText != null)
+         {
+            startText.enabled = false;
+            }
+         
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,12 +125,18 @@ public class TrophyCollector : MonoBehaviour
     private void LoadNextLevel()
     {
         currentLevel++;
-        if(currentLevel>10){
+        if (currentLevel > 4)
+        {
             if (gameOverText != null)
             {
-                gameOverText.enabled = true;
-                gameOverText.text = " You win!";
+                // gameOverText.enabled = true;
+                // gameOverText.text = "You win!";
+                currentLevel=1;
                 Time.timeScale = 0f;
+                gameStarted = false;
+                startText.enabled = true;
+                startText.text = "You win! Press Space to Restart";
+                
             }
         }
         if (player != null)
@@ -122,30 +154,31 @@ public class TrophyCollector : MonoBehaviour
             levelText.enabled = false;
         }
 
-         if (walls != null)
-    {
-        foreach (var wall in walls)
+        if (walls != null)
         {
-            if (wall != null) 
+            foreach (var wall in walls)
             {
-                wall.SetActive(false);
+                if (wall != null) 
+                {
+                    wall.SetActive(false);
+                }
             }
         }
-    }
 
-    if (coins != null)
-    {
-        foreach (var coin in coins)
+        if (coins != null)
         {
-            if (coin != null) 
+            foreach (var coin in coins)
             {
-                coin.SetActive(false);
+                if (coin != null) 
+                {
+                    coin.SetActive(false);
+                }
             }
         }
-    }
+
         int wallsToActivate = Mathf.Min((2 * currentLevel), walls.Length);
         int coinsToActivate = Mathf.Min(currentLevel, coins.Length);
-// Activate walls
+
         if (walls != null && walls.Length > 0)
         {
             List<int> activatedWalls = new List<int>();
@@ -159,12 +192,7 @@ public class TrophyCollector : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Debug.LogWarning("Walls array is not assigned or is empty!");
-        }
 
-        // Activate coins
         if (coins != null && coins.Length > 0)
         {
             List<int> activatedCoins = new List<int>();
@@ -177,10 +205,6 @@ public class TrophyCollector : MonoBehaviour
                     coins[randomIndex].SetActive(true);
                 }
             }
-        }
-        else
-        {
-            Debug.LogWarning("Coins array is not assigned or is empty!");
         }
 
         Invoke(nameof(ActivateTrophy), trophyDelay);

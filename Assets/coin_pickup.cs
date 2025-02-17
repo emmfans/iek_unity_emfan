@@ -14,7 +14,7 @@ public class CoinPickup : MonoBehaviour
         {
             if (doubleSlider != null)
             {
-                doubleSlider.addTime();
+                doubleSlider.AddTime();
             }
 
               
